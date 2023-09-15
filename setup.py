@@ -5,15 +5,15 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     # Here is the module name.
-    name="Janex",
+    name="JanexNLG",
 
     # version of the module
-    version="0.0.80",
+    version="0.0.1",
 
     # Name of Author
     author="Cipher58",
 
-    download_url = 'https://github.com/Cipher58/Janex-Python.git',
+    download_url = 'https://github.com/Cipher58/JanexNLG.git',
 
     # your Email address
     author_email="cipher58public@gmail.com",
@@ -37,7 +37,9 @@ setuptools.setup(
     # then you must add there, in order to download every requirement of package
 
     install_requires=[
-        "CipherProgram",
+        "Janex",
+        "torch",
+        "spacy",
         ],
 
 
