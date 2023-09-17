@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: JanexNLG
-Version: 0.0.1
+Version: 0.0.2
 Home-page: https://github.com/Cipher58/Janex-Python
 Download-URL: https://github.com/Cipher58/JanexNLG.git
 Author: Cipher58
@@ -34,6 +34,19 @@ NLG.set_spacy_model("en_core_web_md") # You can set this to any Spacy model of y
 NLG.train_data() # Finally, train the data. This will save everything collected into a .bin file in your program's directory.
 ```
 
+## Finetuning the model
+
+For versions > 0.0.2, a finetuning feature is available. After training your model, if you wish to add extra modifications to alter the model for a specific purpose, you can set the directory to a new folder, put these new data pieces in there, and then continue to finetune the model.
+
+```python
+from JanexNLG.trainer import *
+
+NLG = NLGTraining()
+NLG.set_directory("./files_for_finetuning")
+NLG.set_spacy_model("en_core_web_md")
+NLG.finetune_model("janex.bin") # You've got to add your model name to this function so the library knows what it is finetuning.
+
+```
 ## Using the model
 
 Once you've created the binary data, effectively teaching the AI the connections between words and sentence structures, you can then use it to generate text.
