@@ -29,6 +29,10 @@ class NLG:
         self.trends_dictionary = decompress(janex_model)
         self.model = SimpleNN(300, 128, len(self.trends_dictionary))
         self.max_tokens = 20
+        self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+    def set_device(self, device_type):
+        self.device = torch.device(device_type)
 
     def get_word_vector(self, word):
         return self.nlp(word).vector
