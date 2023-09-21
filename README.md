@@ -20,7 +20,10 @@ NLG.set_directory("./files") # Set this to the name of a folder in the same dire
 NLG.set_spacy_model("en_core_web_md") # You can set this to any Spacy model of your choosing. I would recommend en_core_web_sm for weak or older hardware.
 NLG.train_data() # Finally, train the data. This will save everything collected into a .bin file in your program's directory.
 ```
-
+Optional GPU support:
+```python
+NLG.set_device("cuda")
+```
 ## Finetuning the model
 
 For versions > 0.0.2, a finetuning feature is available. After training your model, if you wish to add extra modifications to alter the model for a specific purpose, you can set the directory to a new folder, put these new data pieces in there, and then continue to finetune the model.
