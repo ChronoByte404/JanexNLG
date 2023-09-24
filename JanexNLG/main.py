@@ -6,15 +6,14 @@ import torch.nn as nn
 import torch.optim as optim
 from Janex import *
 
-class SimpleNN(nn.Module):
+class SimpleRNN(nn.Module):
     def __init__(self, input_dim, hidden_dim, output_dim):
-        super(SimpleNN, self).__init__()
-        self.fc1 = nn.Linear(input_dim, hidden_dim)
-        self.fc2 = nn.Linear(hidden_dim, output_dim)
+        super(SimpleRNN, self).__init__()
+        self.rnn = nn.RNN(input_dim, hidden_dim, batch_first=True)
+        self.fc = nn.Linear(hidden_dim, output_dim)
 
     def forward(self, x):
-        out = torch.relu(self.fc1(x))
-        out = self.fc2(out)
+        out, _ = self.rnn(x)
         return out
 
 def decompress(janex_model):
@@ -27,9 +26,9 @@ class NLG:
     def __init__(self, spacy_model, janex_model):
         self.nlp = spacy.load(spacy_model)
         self.trends_dictionary = decompress(janex_model)
-        self.model = SimpleNN(300, 128, len(self.trends_dictionary))
         self.max_tokens = 20
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        self.rnn_model = SimpleRNN(300, 128, len(self.trends_dictionary))
 
     def set_device(self, device_type):
         self.device = torch.device(device_type)
@@ -42,17 +41,14 @@ class NLG:
         context_vectors = np.array([self.get_word_vector(word) for word in self.inputs.split()[-context_window_size:]])
 
         context_vectors = np.resize(context_vectors, 300)
+        # Assuming you have already prepared context_vectors as input
+        context_tensor = torch.Tensor(context_vectors).unsqueeze(0)  # Add batch dimension
 
-        criterion = nn.CrossEntropyLoss()
-        optimizer = optim.Adam(self.model.parameters(), lr=0.001)
-
-        context_tensor = torch.Tensor(context_vectors)
-
-        output = self.model(context_tensor)
-        _, predicted_idx = torch.max(output, 0)
+        output = self.rnn_model(context_tensor)
+        _, predicted_idx = torch.max(output, 1)
         best_next_word = list(self.trends_dictionary.keys())[predicted_idx.item()]
 
-        if best_next_word and output[predicted_idx.item()] > 0.1:
+        if best_next_word and output[0, predicted_idx.item()] > 0.1:
             return best_next_word
 
     def generate_sentence(self, input):

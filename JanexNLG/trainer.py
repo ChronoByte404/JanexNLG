@@ -51,8 +51,11 @@ class NLGTraining:
         data = self.cycle_through_files()
 
         tokens = tokenize(data)
+        totalsum = len(tokens)
 
         for i, token in enumerate(tokens):
+            progress = i / totalsum * 100
+            print(f"Processing token number {i} of {totalsum} ({progress:.2f}% complete)")
             if token not in trends_dictionary:
                 # Get the previous and next tokens if they exist
                 prev_token = tokens[i - 1] if i > 0 else None
@@ -76,7 +79,6 @@ class NLGTraining:
                     "context_words": context_words,
                     "context_vectors": context_vectors
                 }
-                print(trends_dictionary[token])
             else:
                 prev_token = tokens[i - 1] if i > 0 else None
                 next_token = tokens[i + 1] if i < len(tokens) - 1 else None
@@ -115,8 +117,11 @@ class NLGTraining:
         data = self.cycle_through_files()
 
         tokens = tokenize(data)
+        totalsum = len(tokens)
 
         for i, token in enumerate(tokens):
+            progress = i / totalsum * 100
+            print(f"Processing token number {i} of {totalsum} ({progress:.2f}% complete)")
             if token not in trends_dictionary:
                 # Get the previous and next tokens if they exist
                 prev_token = tokens[i - 1] if i > 0 else None
@@ -140,7 +145,6 @@ class NLGTraining:
                     "context_words": context_words,
                     "context_vectors": context_vectors
                 }
-                print(trends_dictionary[token])
             else:
                 prev_token = tokens[i - 1] if i > 0 else None
                 next_token = tokens[i + 1] if i < len(tokens) - 1 else None
