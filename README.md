@@ -1,6 +1,6 @@
 # JanexNLG
 
-JanexNLG is a version of Janex which is designed to allow you to train a .bin Janex model using your own datasets stored in txt files, and then generate new text using a feed-forward Neural Network.
+JanexNLG is a version of Janex which is designed to allow you to train a .bin Janex model using your own datasets stored in txt files, and then generate new text using a Recurrent Neural Network (Feed-Forward Neural Network used in versions prior to v0.0.4).
 
 This program works by breaking down the sentences in your txt files and finding the trends of which words are commonly used next to each other, as well as accounting for the sentence structure trends. The more data, the better.
 
